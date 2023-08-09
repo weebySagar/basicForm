@@ -1,8 +1,12 @@
 const myForm = document.querySelector("#myForm");
 const usersList = document.querySelector("#usersList");
+const editButton= document.querySelectorAll('.edit');
+const deleteButton = document.querySelector('.delete')
 
 myForm.addEventListener("submit",submitForm);
-usersList.addEventListener('click',deleteUser)
+usersList.addEventListener('click',deleteUser);
+usersList.addEventListener('click',editUser)
+
 
 
 function submitForm(event){
@@ -17,7 +21,13 @@ function submitForm(event){
     }
     else{
         const li = document.createElement("li");
-        li.className='list-group-item'
+        li.className='list-group-item';
+
+
+        const editBtn = document.createElement('button');
+        editBtn.innerText="Edit";
+        editBtn.className='btn btn-success mx-2 btn-sm float-end edit';
+        
 
         const deleteBtn = document.createElement('button');
         deleteBtn.textContent='Delete';
@@ -27,6 +37,7 @@ function submitForm(event){
         li.appendChild(document.createTextNode(`  ${phone}`));
 
         li.appendChild(deleteBtn)
+        li.appendChild(editBtn);
         usersList.appendChild(li);
 
 
@@ -56,5 +67,19 @@ if(e.target.classList.contains('delete')){
     usersList.removeChild(li)
    
 }
+}
+
+function editUser(e){
+    if(e.target.classList.contains('edit')){
+        const li = e.target.parentElement;
+        myForm.name.value= li.childNodes[0].textContent.trim();
+        myForm.email.value= li.childNodes[1].textContent.trim();
+        myForm.phone.value= li.childNodes[2].textContent.trim();
+        const email=li.childNodes[1].textContent.trim();
+        localStorage.removeItem(email);
+    usersList.removeChild(li)
+
+    }
+
 }
 
