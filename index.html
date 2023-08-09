@@ -93,8 +93,8 @@
                 // const li = document.createElement("li");
                 // li.appendChild(document.createTextNode(`${name} : ${email}`));
                 // usersList.appendChild(li);
-                localStorage.setItem('name',name);
-                localStorage.setItem('email',email);
+                const user ={name,email}
+                localStorage.setItem('user',JSON.stringify(user));
 
                
                 event.target.name.value=""
