@@ -78,8 +78,7 @@
         const usersList = document.querySelector("#usersList");
 
         myForm.addEventListener("submit",submitForm);
-        myForm.addEventListener("mouseover",onMouseHover);
-        myForm.addEventListener("mouseout",onMouseOut)
+      
         
         function submitForm(event){
 
@@ -91,9 +90,13 @@
                 alert("please enter all fields")
             }
             else{
-                const li = document.createElement("li");
-                li.appendChild(document.createTextNode(`${name} : ${email}`));
-                usersList.appendChild(li);
+                // const li = document.createElement("li");
+                // li.appendChild(document.createTextNode(`${name} : ${email}`));
+                // usersList.appendChild(li);
+                localStorage.setItem('name',name);
+                localStorage.setItem('email',email);
+
+               
                 event.target.name.value=""
                 event.target.email.value=""
             }
@@ -102,13 +105,7 @@
 
         }
 
-        function onMouseHover(event){
-            console.log("your mouse is in the form")
-        }
-
-        function onMouseOut(event){
-            console.log("your mouse left the form")
-        }
+       
     </script>
   </body>
 </html>
