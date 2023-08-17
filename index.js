@@ -12,7 +12,7 @@ usersList.addEventListener('click',editUser)
 document.addEventListener('DOMContentLoaded',fetchData)
 
 
-//  for adding users in the crud crud
+//  for adding users in the crud crud when the website loaded
 function submitForm(event){
 
     event.preventDefault();
@@ -98,14 +98,14 @@ function editUser(e){
 
 
 // default url 
-const baseUrl="https://crudcrud.co/api/7e1e72ff5d794cbbbb93f68e300378d1/userdata";
+const baseUrl="https://crudcrud.com/api/7e1e72ff5d794cbbbb93f68e300378d1/userdata";
 
 // for fetching users from crud crud
 async function fetchData(){
 try {
     const {data} = await axios.get(baseUrl);
     for(let i=0;i<data.length;i++){
-
+        // 
         createList(data[i])
     }
 } catch (error) {
