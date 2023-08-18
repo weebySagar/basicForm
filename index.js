@@ -12,7 +12,7 @@ usersList.addEventListener('click',editUser)
 document.addEventListener('DOMContentLoaded',fetchData)
 
 
-//  for adding users in the crud crud when the website loaded
+//  for adding users in the crud crud when the website loaded.
 function submitForm(event){
 
     event.preventDefault();
@@ -47,6 +47,7 @@ function submitForm(event){
 function createList(data){
     const li = document.createElement("li");
     li.className='list-group-item';
+    li.setAttribute('id',data._id)
 
 
     const editBtn = document.createElement('button');
@@ -71,11 +72,14 @@ function createList(data){
 function deleteUser(e){
 if(e.target.classList.contains('delete')){
     const li = e.target.parentElement;
-    
-    const email = li.childNodes[1].textContent;
-    
-    localStorage.removeItem(email);
-    usersList.removeChild(li)
+    const id= li.getAttribute('id');
+   
+    // api to delete the user
+    deleteData(id,li)
+
+    // const email = li.childNodes[1].textContent;
+     // localStorage.removeItem(email);
+    //  usersList.removeChild(li)
    
 }
 }
@@ -121,7 +125,17 @@ async function postData(obj){
         createList(data)
     } catch (error) {
         
+console.log(error);
+    }
+}
 
+
+async function deleteData(id,li){
+    try {
+        await axios.delete(`${baseUrl}/${id}`);
+        usersList.removeChild(li)
+    } catch (error) {
+        console.log();
     }
 }
 
