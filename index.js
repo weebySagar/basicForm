@@ -11,7 +11,12 @@ usersList.addEventListener('click',editUser)
 // for loading users at the beginning
 document.addEventListener('DOMContentLoaded',fetchData)
 
-
+const userObj={
+    name:undefined,
+    email:undefined,
+    phone:undefined,
+    id:undefined
+   }
 //  for adding users in the crud crud when the website loaded.
 function submitForm(event){
 
@@ -24,14 +29,18 @@ function submitForm(event){
         alert("please enter all fields")
     }
     else{
-       const obj={
-        name,
-        email,
-        phone
-       }
+      userObj.name=name;
+      userObj.email=email;
+      userObj.phone=phone;
+
 
     //    api function to add users
-       postData(obj);
+    if(userObj.id){
+        editData(userObj.id,userObj)
+    }else{
+        postData(obj);
+
+    }
 
         event.target.name.value=""
         event.target.email.value=""
@@ -45,6 +54,8 @@ function submitForm(event){
 
 // for creating list of users
 function createList(data){
+    
+    if(!data) return
     const li = document.createElement("li");
     li.className='list-group-item';
     li.setAttribute('id',data._id)
@@ -65,6 +76,11 @@ function createList(data){
     li.appendChild(deleteBtn)
     li.appendChild(editBtn);
     usersList.appendChild(li);
+    
+
+    for(let key in userObj){
+        userObj[key]=undefined
+    }
 }
 
 
@@ -93,8 +109,9 @@ function editUser(e){
         myForm.email.value= li.childNodes[1].textContent.trim();
         myForm.phone.value= li.childNodes[2].textContent.trim();
         const email=li.childNodes[1].textContent.trim();
-        localStorage.removeItem(email);
-    usersList.removeChild(li)
+        // localStorage.removeItem(email);
+        userObj.id=li.getAttribute('id')
+        usersList.removeChild(li)
 
     }
 
@@ -113,7 +130,7 @@ try {
         createList(data[i])
     }
 } catch (error) {
-    
+    console.log(error);
 }
 }
 
@@ -136,6 +153,17 @@ async function deleteData(id,li){
         usersList.removeChild(li)
     } catch (error) {
         console.log();
+    }
+}
+
+async function editData(id,obj){
+    delete obj.id;
+    try {
+        await axios.put(`${baseUrl}/${id}`,obj);
+       createList(userObj);
+       console.log(userObj);
+    } catch (error) {
+        console.log(error);
     }
 }
 
